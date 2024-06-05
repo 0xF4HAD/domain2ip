@@ -1,0 +1,27 @@
+import socket
+
+def domain_to_ip(domain):
+    try:
+        ip_address = socket.gethostbyname(domain)
+        return ip_address
+    except socket.gaierror:
+        return None
+
+def convert_domains_to_ips(input_file, output_file):
+    with open(input_file, 'r') as infile, open(output_file, 'w') as outfile:
+        for domain in infile:
+            domain = domain.strip()
+            if domain:
+                ip_address = domain_to_ip(domain)
+                if ip_address:
+                    outfile.write(f"{domain} -> {ip_address}\n")
+                    // outfile.write(f"{ip_address}\n")
+                else:
+                    outfile.write(f"{domain} -> IP address not found\n")
+                    // outfile.write(f"\n")
+    print(f"Conversion complete. Check {output_file} for results.")
+
+if __name__ == "__main__":
+    input_file = 'domains.txt'
+    output_file = 'domain_ips.txt'
+    convert_domains_to_ips(input_file, output_file)
